@@ -19,6 +19,20 @@ function loadInitialState() {
   return state
 }
 
+function getCurrentWeekId(plan) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  for (const week of plan) {
+    if (week.start && week.end) {
+      const start = new Date(week.start)
+      const end = new Date(week.end)
+      if (today >= start && today <= end) return week.id
+    }
+  }
+  if (today < new Date(plan[0].start)) return plan[0].id
+  return plan[plan.length - 1].id
+}
+
 function formatKm(n) {
   return n.toFixed(1).replace(/\.0$/, '')
 }
@@ -88,7 +102,7 @@ function WeekCard({ week, isOpen, onToggle, state, onToggleRun }) {
 
 export default function App() {
   const [state, setState] = useState(loadInitialState)
-  const [openWeeks, setOpenWeeks] = useState({ w1: true })
+  const [openWeeks, setOpenWeeks] = useState(() => ({ [getCurrentWeekId(PLAN)]: true }))
   const daysLeft = useCountdown(RACE_DATE)
 
   useEffect(() => {
