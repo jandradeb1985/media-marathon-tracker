@@ -1,6 +1,7 @@
 export const PLAN = [
   {
     id: 'w1', title: 'Semana 1', dates: '30 jun - 6 jul', total: 36,
+    start: '2026-06-30', end: '2026-07-06',
     runs: [
       { id: 'w1-dom29', day: 'Dom 29', desc: 'Rodaje suave', km: 7, doneDefault: true },
       { id: 'w1-lun30', day: 'Lun 30', desc: 'Rodaje suave', km: 7, doneDefault: true },
@@ -11,6 +12,7 @@ export const PLAN = [
   },
   {
     id: 'w2', title: 'Semana 2', dates: '7 - 13 jul', total: 31,
+    start: '2026-07-07', end: '2026-07-13',
     runs: [
       { id: 'w2-mar', day: 'Martes', desc: 'Rodaje', km: 6 },
       { id: 'w2-jue', day: 'Jueves', desc: 'Rodaje', km: 7 },
@@ -20,6 +22,7 @@ export const PLAN = [
   },
   {
     id: 'w3', title: 'Semana 3', dates: '14 - 20 jul', total: 34,
+    start: '2026-07-14', end: '2026-07-20',
     runs: [
       { id: 'w3-mar', day: 'Martes', desc: 'Rodaje', km: 7 },
       { id: 'w3-jue', day: 'Jueves', desc: 'Rodaje', km: 7 },
@@ -29,6 +32,7 @@ export const PLAN = [
   },
   {
     id: 'w4', title: 'Semana 4', dates: '21 - 27 jul', total: 35,
+    start: '2026-07-21', end: '2026-07-27',
     note: 'Semana de Punta Cana. Si un día se complica, elimina un rodaje corto, no la tirada larga.',
     runs: [
       { id: 'w4-mar', day: 'Martes', desc: 'Rodaje', km: 7 },
@@ -39,6 +43,7 @@ export const PLAN = [
   },
   {
     id: 'w5', title: 'Semana 5', dates: '28 jul - 3 ago', total: 38,
+    start: '2026-07-28', end: '2026-08-03',
     runs: [
       { id: 'w5-mar', day: 'Martes', desc: 'Rodaje', km: 8 },
       { id: 'w5-jue', day: 'Jueves', desc: 'Rodaje', km: 8 },
@@ -48,6 +53,7 @@ export const PLAN = [
   },
   {
     id: 'w6', title: 'Semana 6 · Pico', dates: '4 - 10 ago', total: 40,
+    start: '2026-08-04', end: '2026-08-10',
     note: 'Semana pico. Si el pie molesta más de lo habitual, cambia el fondo de 18 km por 16 km.',
     runs: [
       { id: 'w6-mar', day: 'Martes', desc: 'Rodaje', km: 8 },
@@ -58,6 +64,7 @@ export const PLAN = [
   },
   {
     id: 'w7', title: 'Semana 7 · Descarga', dates: '11 - 17 ago', total: 27,
+    start: '2026-08-11', end: '2026-08-17',
     note: 'Comenzar descarga.',
     runs: [
       { id: 'w7-mar', day: 'Martes', desc: 'Rodaje', km: 7 },
@@ -67,6 +74,7 @@ export const PLAN = [
   },
   {
     id: 'w8', title: 'Semana de carrera', dates: '18 - 23 ago', total: 9,
+    start: '2026-08-18', end: '2026-08-23',
     note: 'Viernes y sábado: descanso, hidratación normal, dormir bien.',
     runs: [
       { id: 'w8-mar18', day: 'Mar 18', desc: '5 km muy suaves', km: 5 },
