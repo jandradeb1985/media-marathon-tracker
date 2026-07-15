@@ -158,7 +158,6 @@ function WeekCard({ week, isOpen, onToggle, state, paces, onToggleRun, onPaceCha
                 type="text"
                 className="pace-input"
                 placeholder="mm:ss"
-                inputMode="numeric"
                 value={paces[run.id] || ''}
                 onChange={(e) => onPaceChange(run.id, e.target.value)}
               />
