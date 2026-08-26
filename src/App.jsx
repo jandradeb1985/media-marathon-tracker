@@ -64,7 +64,7 @@ function WeekCard({ week, isOpen, onToggle, state, paces, feels, onToggleRun, on
         {week.runs.map(run => {
           const isDone = !!state[run.id]
           const runClass = 'run-item' + (isDone ? ' done' : '')
-          const isRunningDay = run.km > 0
+          const isRunningDay = run.type === 'run'
           return (
             <div key={run.id} className={runClass}>
               <label className="run-main">
@@ -74,7 +74,7 @@ function WeekCard({ week, isOpen, onToggle, state, paces, feels, onToggleRun, on
                   onChange={() => onToggleRun(run.id)}
                 />
                 <span className="run-day">{formatRunDate(run.date)}</span>
-                <span className="run-desc">{run.desc}</span>
+                <span className="run-desc">{isRunningDay ? '🏃 ' : '🏋️ '}{run.desc}</span>
                 {isRunningDay && <span className="run-km">{run.km} km</span>}
               </label>
               <div className="run-extra">
@@ -169,8 +169,8 @@ export default function App() {
   return (
     <>
       <header>
-        <h1>🔄 Plan de Reactivación</h1>
-        <p>8 semanas para volver a correr cuidando el pie</p>
+        <h1>⚡ Reinicio + Velocidad</h1>
+        <p>6 semanas: vuelta a correr, fuerza progresiva y primeros trabajos de velocidad</p>
         <div className="race-badge">
           <div>
             <div className="label">Semana actual</div>
@@ -200,7 +200,7 @@ export default function App() {
         {anyMolestia && (
           <div className="prediction-card">
             <div className="prediction-warning" style={{ marginTop: 0 }}>
-              🤕 Registraste al menos una sesión con molestia. Antes de seguir subiendo volumen, vale la pena confirmar con tu especialista que todo está bien.
+              🤕 Registraste al menos una sesión con molestia. Antes de seguir subiendo carga, vale la pena confirmar con tu especialista que todo está bien.
             </div>
           </div>
         )}
