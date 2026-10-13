@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { PLAN, TOTAL_PLAN_KM, STORAGE_KEY, PACE_STORAGE_KEY, FEEL_STORAGE_KEY } from './planData'
+import {
+  PLAN, TOTAL_PLAN_KM, STORAGE_KEY, PACE_STORAGE_KEY, FEEL_STORAGE_KEY,
+  PLAN_TITLE, PLAN_SUBTITLE, PLAN_GOAL, TEST_IDS
+} from './planData'
 
 const WEEKDAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
@@ -37,6 +40,20 @@ function getCurrentWeek(plan) {
 
 function formatKm(n) {
   return n.toFixed(1).replace(/\.0$/, '')
+}
+
+// Convierte "5:30" en 330 segundos. Devuelve null si el formato no es valido.
+function parsePace(str) {
+  if (!str) return null
+  const match = /^(\d{1,2}):([0-5]\d)$/.exec(str.trim())
+  if (!match) return null
+  return parseInt(match[1], 10) * 60 + parseInt(match[2], 10)
+}
+
+function formatPace(totalSeconds) {
+  const m = Math.floor(totalSeconds / 60)
+  const s = Math.round(totalSeconds % 60)
+  return m + ':' + String(s).padStart(2, '0')
 }
 
 function WeekCard({ week, isOpen, onToggle, state, paces, feels, onToggleRun, onPaceChange, onFeelChange }) {
@@ -156,6 +173,14 @@ export default function App() {
     [feels]
   )
 
+  const baseSec = parsePace(paces[TEST_IDS.base])
+  const finalSec = parsePace(paces[TEST_IDS.final])
+  let improvement = null
+  if (baseSec != null && finalSec != null) {
+    const diff = baseSec - finalSec
+    improvement = { diff: diff, pct: (diff / baseSec) * 100 }
+  }
+
   const resetProgress = () => {
     if (confirm('¿Seguro que quieres borrar todo tu progreso guardado?')) {
       setState({})
@@ -169,8 +194,8 @@ export default function App() {
   return (
     <>
       <header>
-        <h1>⚡ Reinicio + Velocidad</h1>
-        <p>6 semanas: vuelta a correr, fuerza progresiva y primeros trabajos de velocidad</p>
+        <h1>{PLAN_TITLE}</h1>
+        <p>{PLAN_SUBTITLE}</p>
         <div className="race-badge">
           <div>
             <div className="label">Semana actual</div>
@@ -195,6 +220,30 @@ export default function App() {
           <div className="bar-bg">
             <div className="bar-fill" style={{ width: pct + '%' }} />
           </div>
+        </div>
+
+        <div className="prediction-card">
+          <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#083d54', marginBottom: 8 }}>
+            {PLAN_GOAL.title}
+          </div>
+          <p style={{ margin: 0, fontSize: '0.82rem', color: '#6b7b7f', lineHeight: 1.5 }}>
+            {PLAN_GOAL.text}
+          </p>
+          {baseSec != null && (
+            <div style={{ marginTop: 12, fontSize: '0.85rem', color: '#1a2b2f', lineHeight: 1.6 }}>
+              <div>Test 1 ({PLAN_GOAL.baseLabel}): <b>{formatPace(baseSec)} /km</b></div>
+              {finalSec != null && (
+                <div>Test 2 ({PLAN_GOAL.finalLabel}): <b>{formatPace(finalSec)} /km</b></div>
+              )}
+            </div>
+          )}
+          {improvement && (
+            <div style={{ marginTop: 10, fontSize: '0.85rem', fontWeight: 700, color: improvement.diff > 0 ? '#2e8b57' : '#a15c00' }}>
+              {improvement.diff > 0
+                ? 'Mejoraste ' + Math.round(improvement.diff) + ' s/km (' + improvement.pct.toFixed(1).replace('.', ',') + ' %)'
+                : 'El test 2 salió igual o más lento (diferencia: ' + Math.abs(Math.round(improvement.diff)) + ' s/km). Un solo día no define el bloque: revisa clima, sueño y cómo llegaste.'}
+            </div>
+          )}
         </div>
 
         {anyMolestia && (
